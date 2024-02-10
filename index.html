@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="openseadragon.min.js"></script>
+    <script src="openseadragon-scalebar.js"></script>
+    <script src="OSDGridPlugin.min.js"></script>
+    <title>Overlay Demo</title>
+    <style>
+        html, body {
+            background-color:#000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden !important;
+        }
+
+        #openseadragon {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+    </style>
+    <script>
+        window.onload = function() {
+            tileSource = {
+                Image: {
+                    xmlns: 'http://schemas.microsoft.com/deepzoom/2008',
+                    Url: 'http://openseadragon.github.io/example-images/highsmith/highsmith_files/',
+                    Format: 'jpg',
+                    Overlap: '1',
+                    TileSize: '256',
+                    Size: {
+                        Height: '9221',
+                        Width: '7026'
+                    }
+                }
+            };
+
+            viewer = new OpenSeadragon({
+                id: 'openseadragon',
+                prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@2.4.2/build/openseadragon/images/',
+                showFullPageControl: true,
+                tileSources: tileSource,
+            });
+
+            viewer.scalebar({
+                type: OpenSeadragon.ScalebarType.MICROSCOPY,
+                // pixelsPerMeter: 1/PIXEL_SIZE,
+                minWidth: "75px",
+                location: OpenSeadragon.ScalebarLocation.BOTTOM_RIGHT,
+                xOffset: 5,
+                yOffset: 10,
+                stayInsideImage: true,
+                color: "rgb(150, 150, 150)",
+                fontColor: "rgb(100, 100, 100)",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                fontSize: "small",
+                barThickness: 2
+            });
+
+            let gridPlugin = new OSDGridPlugin(viewer, {
+                conversionFactor: 4.54e-7 * 1e3,
+                units: "mm",
+                useBuiltInUI: true
+            });
+
+
+        }
+
+    </script>
+</head>
+<body >
+<div id="openseadragon" ></div>
+</body>
+</html>
